@@ -26,15 +26,16 @@ class Graph:
                 self.nodes.append(Node(i, data[i]))
 
             self.adjacency_matrix[i, i] = 1
+            
             self.n += 1
 
     def __str__(self):
         graph_str = f""
 
         for i in range(self.n):
-            graph_str += f"Node {i + 1}:\n\t{self.nodes[i]}\n"
+            graph_str += f"Node {i}:\n\t{self.nodes[i]}\n"
 
-        graph_str += f"Adjacency Matrix:\t{self.adjacency_matrix.shape}\n{self.adjacency_matrix}"
+        graph_str += f"\nAdjacency Matrix:\t{self.adjacency_matrix.shape}\n{self.adjacency_matrix}"
         return graph_str
     
     def edge(self, pos1, pos2):
@@ -44,11 +45,23 @@ class Graph:
         self.adjacency_matrix[pos1, pos2] = 1
         self.adjacency_matrix[pos2, pos1] = 1
 
+    def remove_edge(self, pos1, pos2):
+        self.nodes[pos1].edges.remove(pos2)
+        self.nodes[pos2].edges.remove(pos1)
+
     def complete(self):
         if self.n > 1:
             for i in range(self.n):
                 for j in [index for index in range(self.n) if index != i]:
                     self.edge(i, j)
+
+    def cyclic(self):
+        if self.n > 1:
+            for i in range(self.n):
+                if i == (self.n - 1):
+                    self.edge(i, 0)
+                else:
+                    self.edge(i, i+1)
                 
     def compute_coord(self, radius = 1):
         coord = []
@@ -76,7 +89,7 @@ class Graph:
         # Plot nodes
         for node in self.nodes:
             ax.plot(coord[node.pos][0], coord[node.pos][1], 'bo', markersize=10)  # Draw nodes as blue circles
-            ax.text(coord[node.pos][0] + 0.05, coord[node.pos][1] + 0.05, str(node.pos + 1), fontsize=12)  # Label nodes
+            ax.text(coord[node.pos][0] + 0.05, coord[node.pos][1] + 0.05, str(node.pos), fontsize=12)  # Label nodes
 
         # Set equal aspect ratio and limits to make the graph look proportional
         ax.set_aspect('equal')
@@ -87,14 +100,9 @@ class Graph:
         plt.title(f"{self.n}-gon Graph")
         plt.show()
 
-    
-
-
 
 if __name__ == "__main__":
     for i in range(8):
         ki = Graph(i + 1)
         ki.complete()
-        print(ki)
-
         ki.visualize()

@@ -7,7 +7,7 @@ class Node:
     Attributes:
         pos -> int
         data -> any data type Any kind of information desired to be stored
-        edges -> [] of int
+        edges -> {} of int
     """
     
     def __init__(self, pos, data = None):
