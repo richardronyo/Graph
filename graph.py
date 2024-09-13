@@ -1,5 +1,6 @@
 from node import Node
 import matplotlib.pyplot as plt
+import numpy as np
 import math
 
 class Graph:
@@ -15,12 +16,16 @@ class Graph:
     def __init__(self, n, data = None):
         self.nodes = []
         self.n = 0
+        self.adjacency_matrix = np.zeros((n, n))
+
 
         for i in range(n):
             if data == None:
                 self.nodes.append(Node(i))
             else:
                 self.nodes.append(Node(i, data[i]))
+
+            self.adjacency_matrix[i, i] = 1
             self.n += 1
 
     def __str__(self):
@@ -29,11 +34,15 @@ class Graph:
         for i in range(self.n):
             graph_str += f"Node {i + 1}:\n\t{self.nodes[i]}\n"
 
+        graph_str += f"Adjacency Matrix:\t{self.adjacency_matrix.shape}\n{self.adjacency_matrix}"
         return graph_str
     
     def edge(self, pos1, pos2):
-        self.nodes[pos1].edges.append(pos2)
-        self.nodes[pos2].edges.append(pos1)
+        self.nodes[pos1].edges.add(pos2)
+        self.nodes[pos1].edges.add(pos2)
+
+        self.adjacency_matrix[pos1, pos2] = 1
+        self.adjacency_matrix[pos2, pos1] = 1
 
     def complete(self):
         if self.n > 1:
@@ -83,7 +92,9 @@ class Graph:
 
 
 if __name__ == "__main__":
-    for i in range(5):
+    for i in range(8):
         ki = Graph(i + 1)
         ki.complete()
+        print(ki)
+
         ki.visualize()

@@ -13,7 +13,7 @@ class Node:
     def __init__(self, pos, data = None):
         self.pos = pos
         self.data = data
-        self.edges = []
+        self.edges = set()
 
     def __str__(self):
         return f"Data: {self.data}\n\tEdges: {self.edges}"
