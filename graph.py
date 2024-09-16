@@ -16,7 +16,7 @@ class Graph:
     def __init__(self, n, data = None):
         self.nodes = []
         self.n = 0
-        self.adjacency_matrix = np.zeros((n, n))
+        self.adjacency_matrix = np.eye(n)
 
 
         for i in range(n):
@@ -25,7 +25,6 @@ class Graph:
             else:
                 self.nodes.append(Node(i, data[i]))
 
-            self.adjacency_matrix[i, i] = 1
             
             self.n += 1
 
