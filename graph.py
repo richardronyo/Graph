@@ -40,7 +40,7 @@ class Graph:
     
     def edge(self, pos1, pos2):
         self.nodes[pos1].edges.add(pos2)
-        self.nodes[pos1].edges.add(pos2)
+        self.nodes[pos2].edges.add(pos1)
 
         self.adjacency_matrix[pos1, pos2] = 1
         self.adjacency_matrix[pos2, pos1] = 1
